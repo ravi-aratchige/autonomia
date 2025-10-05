@@ -1,0 +1,11 @@
+{
+    "name": "Browser Extension Sandbox",
+    "description": "This is a sandbox for testing the capabilities of browser extensions.",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": ["microphone"],
+    "action": {
+        "default_popup": "index.html",
+        "default_icon": "icon.png"
+    }
+}
