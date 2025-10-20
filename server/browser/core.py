@@ -58,6 +58,11 @@ class CoreBrowserToolkit(BaseToolkit):
 
         self.driver.switch_to.new_window("tab")
 
+    def maximize_browser(self):
+        """Maximize the browser. Does not take in any arguments."""
+
+        self.driver.maximize_window()
+
     # *******************************************************
     #                    TOOL REGISTRY
     # *******************************************************
@@ -94,6 +99,11 @@ class CoreBrowserToolkit(BaseToolkit):
                 name="open_new_tab",
                 func=lambda _: self.open_new_tab(),
                 description=self.get_tool_docstring(self.open_new_tab),
+            ),
+            Tool(
+                name="maximize_browser",
+                func=lambda _: self.maximize_browser(),
+                description=self.get_tool_docstring(self.maximize_browser),
             ),
         ]
 

@@ -22,8 +22,8 @@ class BrowserAssistantBuilder:
         google_tools = GoogleToolkit()
         youtube_tools = YoutubeToolkit()
 
-        # Build agent toolkit
-        self.toolkit = (
+        # Build agent tool suite from toolkits
+        self.tool_suite = (
             core_tools.get_tools()
             + google_tools.get_tools()
             + youtube_tools.get_tools()
@@ -35,16 +35,19 @@ class BrowserAssistantBuilder:
         # Create agent with tool-calling capabilities
         agent = create_tool_calling_agent(
             self.model,
-            self.toolkit,
+            self.tool_suite,
             self.prompt,
         )
 
         # Define agent executor runtime
         self.runnable_agent = AgentExecutor(
             agent=agent,
-            tools=self.toolkit,
+            tools=self.tool_suite,
             verbose=AGENT_VERBOSITY,
         )
+
+    def debug_prompt(self):
+        return self.prompt
 
     def execute_action(self, user_input, chat_history):
         try:

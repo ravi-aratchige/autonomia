@@ -43,6 +43,11 @@ def test_server():
     return "Server is up and running."
 
 
+@app.get("/debug")
+def debug_system():
+    return assistant.debug_prompt()
+
+
 @app.post("/chat")
 async def chat_endpoint(input: ContentOnlyMessagePayload):
     """
