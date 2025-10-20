@@ -19,20 +19,15 @@ if (typeof SpeechRecognition !== 'undefined') {
 
 	// Handle results
 	recognizer.onresult = (event) => {
-		const transcript = event.results[event.resultIndex][0].transcript;
-		const confidence = event.results[event.resultIndex][0].confidence;
 		const result = event.results[event.resultIndex];
+		const transcript = result[0].transcript.trim();
+		const confidence = result[0].confidence;
 
-		// Display output
-		if (result.isFinal) {
+		if (result.isFinal && transcript) {
 			console.log(
-				`Result: ${transcript} (Confidence: ${(
-					confidence * 100
-				).toFixed(2)}%)`
+				`Final Result: "${transcript}" (Confidence: ${(confidence * 100).toFixed(2)}%)`
 			);
-
-			// Call API
-			testServer();
+			sendToServer(transcript);
 		}
 	};
 
@@ -54,6 +49,34 @@ if (typeof SpeechRecognition !== 'undefined') {
 }
 
 // ========================
+// API CALL FUNCTION
+// ========================
+
+function sendToServer(message) {
+	console.log('Sending to server:', message);
+
+	fetch('http://localhost:8000/chat', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ message }),
+	})
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error(`Server error: ${response.status}`);
+			}
+			return response.json();
+		})
+		.then((data) => {
+			console.log('Server response:', data.response);
+		})
+		.catch((err) => {
+			console.error('Fetch failed:', err);
+		});
+}
+
+// ========================
 // SERVER TEST BUTTON
 // ========================
 
@@ -65,7 +88,7 @@ function testServer() {
 					`Server responded with an error! ${response.status}`
 				);
 			}
-			return response.text(); // optional: read response body
+			return response.text();
 		})
 		.then((data) => {
 			console.log('Server responded OK!', data);
@@ -75,7 +98,6 @@ function testServer() {
 		});
 }
 
-// Attach button listener
 const testServerBtn = document.getElementById('test-server-btn');
 if (testServerBtn) {
 	testServerBtn.addEventListener('click', testServer);

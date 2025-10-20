@@ -1,5 +1,9 @@
 import atexit
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+# Set extension path
+EXTENSION_PATH = "../extension"
 
 
 class BrowserDriverManager:
@@ -8,7 +12,21 @@ class BrowserDriverManager:
     @staticmethod
     def get_driver():
         if BrowserDriverManager._driver is None:
-            BrowserDriverManager._driver = webdriver.Chrome()
+            # Initialize ChromeOptions
+            options = Options()
+
+            # Set options to allow media device access
+            options.add_argument("--use-fake-ui-for-media-stream")
+            options.add_argument("--use-fake-device-for-media-stream")
+            prefs = {"profile.default_content_setting_values.media_stream_mic": 1}
+            options.add_experimental_option("prefs", prefs)
+
+            # Load unpacked extension into browser
+            options.add_argument(f"--load-extension={EXTENSION_PATH}")
+
+            # Initialize Chromedriver
+            BrowserDriverManager._driver = webdriver.Chrome(options=options)
+
         return BrowserDriverManager._driver
 
     @staticmethod
