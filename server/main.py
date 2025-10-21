@@ -60,13 +60,11 @@ async def chat_endpoint(input: ContentOnlyMessagePayload):
     if not user_text:
         return {"error": "No message provided"}
 
-    # Add user message to history
-    message_history.append(HumanMessage(content=user_text))
-
     # Get AI response
     ai_response = assistant.execute_action(user_text, message_history)
 
-    # Add AI response to history
+    # Add initial user message and received AI response to history
+    message_history.append(HumanMessage(content=user_text))
     message_history.append(AIMessage(content=ai_response))
 
     return {
