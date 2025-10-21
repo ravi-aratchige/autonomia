@@ -1,5 +1,5 @@
 from settings import AGENT_VERBOSITY
-from browser.google import GoogleToolkit
+from browser.search import SearchToolkit
 from browser.youtube import YoutubeToolkit
 from browser.core import CoreBrowserToolkit
 from utils.logging import ApplicationLogger
@@ -19,13 +19,13 @@ class BrowserAssistantBuilder:
 
         # Load tools
         core_tools = CoreBrowserToolkit()
-        google_tools = GoogleToolkit()
+        search_tools = SearchToolkit()
         youtube_tools = YoutubeToolkit()
 
         # Build agent tool suite from toolkits
         self.tool_suite = (
             core_tools.get_tools()
-            + google_tools.get_tools()
+            + search_tools.get_tools()
             + youtube_tools.get_tools()
         )
 

@@ -35,7 +35,7 @@ class YoutubeToolkit(BaseToolkit):
         if "youtube" not in self.driver.current_url.lower():
             self.driver.get("https://www.youtube.com")
 
-        # Select searchbar
+        # Select searchbar and enter search query
         searchbar = self.driver.find_element(By.NAME, "search_query")
         searchbar.click()
         searchbar.clear()
