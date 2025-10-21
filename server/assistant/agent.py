@@ -2,11 +2,11 @@ from settings import AGENT_VERBOSITY
 from browser.google import GoogleToolkit
 from browser.youtube import YoutubeToolkit
 from browser.core import CoreBrowserToolkit
+from utils.logging import ApplicationLogger
+from langchain_core.messages import BaseMessage
 from providers.chat_models import GroqChatModel
 from assistant.prompt import BrowserAssistantPromptTemplate
 from langchain.agents import AgentExecutor, create_tool_calling_agent
-
-from utils.logging import ApplicationLogger
 
 
 class BrowserAssistantBuilder:
@@ -49,7 +49,7 @@ class BrowserAssistantBuilder:
     def get_prompt(self):
         return self.prompt
 
-    def execute_action(self, user_input, chat_history):
+    def execute_action(self, user_input: str, chat_history: list[BaseMessage]):
         try:
             response = self.runnable_agent.invoke(
                 {
