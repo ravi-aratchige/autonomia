@@ -46,7 +46,7 @@ class BrowserAssistantBuilder:
             verbose=AGENT_VERBOSITY,
         )
 
-    def debug_prompt(self):
+    def get_prompt(self):
         return self.prompt
 
     def execute_action(self, user_input, chat_history):

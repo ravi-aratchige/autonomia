@@ -45,7 +45,7 @@ def test_server():
 
 @app.get("/debug")
 def debug_system():
-    return assistant.debug_prompt()
+    return assistant.get_prompt()
 
 
 @app.post("/chat")
