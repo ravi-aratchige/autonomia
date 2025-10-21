@@ -50,7 +50,7 @@ class GroqChatModelConnection:
 
         # Initialize model configurations from input parameters
         self.temperature = temperature
-        self.model = model
+        self.model: str = model
 
         # Instantiate model from `langchain_groq.ChatGroq`
         self._model = ChatGroq(
