@@ -21,6 +21,10 @@ class BrowserDriverManager:
             prefs = {"profile.default_content_setting_values.media_stream_mic": 1}
             options.add_experimental_option("prefs", prefs)
 
+            # Set options to remove automation info bar
+            # NOTE this is the "Chrome is being controlled by..." message
+            options.add_experimental_option("excludeSwitches", ["enable-automation"])
+
             # Load unpacked extension into browser
             options.add_argument(f"--load-extension={EXTENSION_PATH}")
 
