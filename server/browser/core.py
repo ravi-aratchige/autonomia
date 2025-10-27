@@ -63,6 +63,11 @@ class CoreBrowserToolkit(BaseToolkit):
 
         self.driver.maximize_window()
 
+    def take_screenshot(self):
+        """Takes a screenshot. Does not take in any arguments."""
+
+        self.driver.save_screenshot()
+
     # *******************************************************
     #                    TOOL REGISTRY
     # *******************************************************
@@ -104,6 +109,11 @@ class CoreBrowserToolkit(BaseToolkit):
                 name="maximize_browser",
                 func=lambda _: self.maximize_browser(),
                 description=self.get_tool_docstring(self.maximize_browser),
+            ),
+            Tool(
+                name="take_screenshot",
+                func=lambda _: self.take_screenshot(),
+                description=self.get_tool_docstring(self.take_screenshot),
             ),
         ]
 
