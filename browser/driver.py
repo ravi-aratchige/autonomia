@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 # Set extension path
-EXTENSION_PATH = "../extension"
+EXTENSION_PATH = "./client"
 
 
 class BrowserDriverManager:

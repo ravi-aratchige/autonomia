@@ -26,7 +26,7 @@ app.add_middleware(
 )
 
 # Set listener path
-LISTENER_PATH = os.path.abspath("../extension/index.html")
+LISTENER_PATH = os.path.abspath("./client/index.html")
 
 # Initialize the assistant and message history
 assistant = BrowserAssistantBuilder()
