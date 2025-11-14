@@ -10,7 +10,9 @@ Clone the repo.
 
 ```sh
 git clone https://github.com/ravi-aratchige/autonomia.git
+```
 
+```sh
 cd autonomia
 ```
 
@@ -31,3 +33,4 @@ uv run main.py
 ---
 
 Made with ❤️ by Ravindu Aratchige
+
