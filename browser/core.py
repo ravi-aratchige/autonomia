@@ -1,8 +1,9 @@
-from browser.base import BaseToolkit
 from langchain_core.tools import Tool
-from settings import PARLOR_TRICK_WEBPAGE
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+
+from browser.base import BaseToolkit
+from settings import PARLOR_TRICK_WEBPAGE
 
 
 class CoreBrowserToolkit(BaseToolkit):
@@ -68,6 +69,15 @@ class CoreBrowserToolkit(BaseToolkit):
 
         self.driver.save_screenshot()
 
+    def close_tab(self):
+        """Closes the currently opened tab. Does not take in any arguments."""
+
+        self.driver.close()
+
+        # Switch Selenium context back to last visible tab
+        window_handles = self.driver.window_handles
+        self.driver.switch_to.window(window_handles[-1])
+
     # *******************************************************
     #                    TOOL REGISTRY
     # *******************************************************
@@ -114,6 +124,11 @@ class CoreBrowserToolkit(BaseToolkit):
                 name="take_screenshot",
                 func=lambda _: self.take_screenshot(),
                 description=self.get_tool_docstring(self.take_screenshot),
+            ),
+            Tool(
+                name="close_tab",
+                func=lambda _: self.close_tab(),
+                description=self.get_tool_docstring(self.close_tab),
             ),
         ]
 
