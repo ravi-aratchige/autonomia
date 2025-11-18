@@ -1,12 +1,15 @@
-from settings import AGENT_VERBOSITY
+from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_core.messages import BaseMessage
+
+from assistant.prompt import BrowserAssistantPromptTemplate
+from browser.core import CoreBrowserToolkit
+from browser.news import NewsToolkit
 from browser.search import SearchToolkit
 from browser.youtube import YoutubeToolkit
-from browser.core import CoreBrowserToolkit
+from providers.google import GoogleChatModel
+from providers.groq import GroqChatModel
+from settings import AGENT_VERBOSITY
 from utils.logging import ApplicationLogger
-from langchain_core.messages import BaseMessage
-from providers.chat_models import GroqChatModel
-from assistant.prompt import BrowserAssistantPromptTemplate
-from langchain.agents import AgentExecutor, create_tool_calling_agent
 
 
 class BrowserAssistantBuilder:
@@ -15,18 +18,20 @@ class BrowserAssistantBuilder:
         self.logger = ApplicationLogger.get_logger()
 
         # Initialize model to be used by agent
-        self.model = GroqChatModel()
+        self.model = GoogleChatModel()
 
         # Load tools
         core_tools = CoreBrowserToolkit()
         search_tools = SearchToolkit()
         youtube_tools = YoutubeToolkit()
+        news_tools = NewsToolkit()
 
         # Build agent tool suite from toolkits
         self.tool_suite = (
             core_tools.get_tools()
             + search_tools.get_tools()
             + youtube_tools.get_tools()
+            + news_tools.get_tools()
         )
 
         # Define agent instruction prompt
@@ -61,6 +66,7 @@ class BrowserAssistantBuilder:
             return response["output"]
         except Exception as e:
             self.logger.error("The assistant crashed when executing an action.")
+            print(str(e))
 
             return f"Sorry, the assistant encountered an error: {e}"
 
