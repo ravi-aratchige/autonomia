@@ -3,6 +3,8 @@ LANGCHAIN_VERBOSITY = False
 
 CHAT_MODEL_NAME = "meta-llama/llama-4-scout-17b-16e-instruct"
 CHAT_MODEL_NAME = "llama-3.3-70b-versatile"
-CHAT_MODEL_NAME = "openai/gpt-oss-120b"
+# CHAT_MODEL_NAME = "openai/gpt-oss-120b"
+
+GOOGLE_CHAT_MODEL_NAME = "gemini-2.5-flash"
 
 PARLOR_TRICK_WEBPAGE = "https://httpbin.org/"
