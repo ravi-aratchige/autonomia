@@ -1,8 +1,10 @@
 """Contains chat models and chat model connection managers to use in workflows."""
 
 import os
+
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
+
 from settings import CHAT_MODEL_NAME
 
 
