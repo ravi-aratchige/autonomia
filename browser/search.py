@@ -1,3 +1,5 @@
+import re
+
 from langchain_core.tools import Tool
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -63,7 +65,7 @@ class SearchToolkit(BaseToolkit):
         articles = self.driver.find_elements(By.CLASS_NAME, "wgl-title")
 
         # Click the relevant article
-        article_to_open = articles[int(index) - 1]
+        article_to_open = articles[int(re.search(r"\d+", index).group()) - 1]
         article_to_open.click()
 
         # Switch Selenium context to newly opened tab
