@@ -1,12 +1,13 @@
 import os
+
 import uvicorn
 from fastapi import FastAPI
-from payloads import ContentOnlyMessagePayload
-from browser.driver import BrowserDriverManager
 from fastapi.middleware.cors import CORSMiddleware
-from assistant.agent import BrowserAssistantBuilder
-from langchain.schema import HumanMessage, AIMessage
+from langchain.schema import AIMessage, HumanMessage
 
+from assistant.agent import BrowserAssistantBuilder
+from browser.driver import BrowserDriverManager
+from payloads import ContentOnlyMessagePayload
 
 # Initialize FastAPI application
 app = FastAPI()
