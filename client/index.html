@@ -4,10 +4,45 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Browser Extension Sandbox</title>
+		<link rel="stylesheet" href="styles.css" />
 	</head>
 	<body>
-		<h1>Autonomia</h1>
-		<button id="test-server-btn">Test Server</button>
+		<button id="test-server-btn" class="test-server-btn">
+			Test Server
+		</button>
+		<div class="container">
+			<div class="content">
+				<h1>Hi There!</h1>
+
+				<p class="description">
+					Autonomia will use this tab to listen to your voice while
+					you browse the web.<br />
+					You can turn this off or close this tab to completely exit
+					Autonomia.
+				</p>
+
+				<button class="stop-btn">
+					<div class="power-icon">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2.5"
+						>
+							<path
+								d="M12 2v10M18.36 6.64a9 9 0 1 1-12.73 0"
+								stroke-linecap="round"
+							/>
+						</svg>
+					</div>
+					<span class="stop-text">Stop<br />Listening</span>
+				</button>
+			</div>
+
+			<footer>
+				<p>Copyrights 2025 Ravindu Aratchige</p>
+			</footer>
+		</div>
 
 		<!-- Control script -->
 		<script src="script.js"></script>
