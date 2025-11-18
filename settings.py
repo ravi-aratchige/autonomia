@@ -1,10 +1,12 @@
 AGENT_VERBOSITY = True
 LANGCHAIN_VERBOSITY = False
 
-CHAT_MODEL_NAME = "meta-llama/llama-4-scout-17b-16e-instruct"
-CHAT_MODEL_NAME = "llama-3.3-70b-versatile"
-# CHAT_MODEL_NAME = "openai/gpt-oss-120b"
+GROQ_CHAT_MODEL_NAME = "meta-llama/llama-4-scout-17b-16e-instruct"
+GROQ_CHAT_MODEL_NAME = "llama-3.3-70b-versatile"
+# GROQ_CHAT_MODEL_NAME = "openai/gpt-oss-120b"
 
 GOOGLE_CHAT_MODEL_NAME = "gemini-2.5-flash"
+
+FOREIGN_NEWS_SERVICE = "nbcnews"
 
 PARLOR_TRICK_WEBPAGE = "https://httpbin.org/"
