@@ -1,7 +1,8 @@
-from browser.base import BaseToolkit
 from langchain_core.tools import Tool
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+
+from browser.base import BaseToolkit
 
 
 class YoutubeToolkit(BaseToolkit):
@@ -26,6 +27,8 @@ class YoutubeToolkit(BaseToolkit):
         # Navigate to YouTube
         self.driver.get("https://www.youtube.com")
 
+    # *******************************************************
+
     def search_on_youtube(self, search_str: str):
         """Search for a video on YouTube. Input should be the search query as a string."""
 
@@ -41,6 +44,8 @@ class YoutubeToolkit(BaseToolkit):
         searchbar.clear()
         searchbar.send_keys(search_str)
         searchbar.send_keys(Keys.ENTER)
+
+    # *******************************************************
 
     def select_search_result_by_video_title(self, input_video_title: str):
         """Click on a search result in YouTube. Input must be the video title or part of it as a string."""

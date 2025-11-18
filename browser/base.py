@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
+
 from langchain_core.tools import Tool
-from utils.logging import ApplicationLogger
+
 from browser.driver import BrowserDriverManager
+from utils.logging import ApplicationLogger
 
 
 class BaseToolkit(ABC):
