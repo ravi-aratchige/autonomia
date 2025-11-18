@@ -29,6 +29,8 @@ class CoreBrowserToolkit(BaseToolkit):
 
         self.driver.get(PARLOR_TRICK_WEBPAGE)
 
+    # *******************************************************
+
     def scroll_up(self):
         """Scroll up the webpage. Does not take in any arguments."""
 
@@ -45,6 +47,22 @@ class CoreBrowserToolkit(BaseToolkit):
         body = self.driver.find_element(By.TAG_NAME, "body")
         body.send_keys(Keys.PAGE_DOWN)
 
+    def scroll_to_top(self):
+        """Scroll to the top of the page. Does not take in any arguments."""
+
+        self.logger.info("The `scroll_to_top` tool has been invoked.")
+
+        self.driver.execute_script("window.scrollTo(0, 0);")
+
+    def scroll_to_bottom(self):
+        """Scroll to the bottom of the page. Does not take in any arguments."""
+
+        self.logger.info("The `scroll_to_bottom` tool has been invoked.")
+
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+    # *******************************************************
+
     def refresh_page(self):
         """Refresh the webpage. Does not take in any arguments."""
 
@@ -52,12 +70,27 @@ class CoreBrowserToolkit(BaseToolkit):
 
         self.driver.refresh()
 
+    # *******************************************************
+
     def open_new_tab(self):
         """Open a new tab. Does not take in any arguments."""
 
         self.logger.info("The `open_new_tab` tool has been invoked.")
 
         self.driver.switch_to.new_window("tab")
+
+    def close_tab(self):
+        """Closes the currently opened tab. Does not take in any arguments."""
+
+        self.logger.info("The `close_tab` tool has been invoked.")
+
+        self.driver.close()
+
+        # Switch Selenium context back to last visible tab
+        window_handles = self.driver.window_handles
+        self.driver.switch_to.window(window_handles[-1])
+
+    # *******************************************************
 
     def maximize_browser(self):
         """Maximize the browser. Does not take in any arguments."""
@@ -68,15 +101,6 @@ class CoreBrowserToolkit(BaseToolkit):
         """Takes a screenshot. Does not take in any arguments."""
 
         self.driver.save_screenshot()
-
-    def close_tab(self):
-        """Closes the currently opened tab. Does not take in any arguments."""
-
-        self.driver.close()
-
-        # Switch Selenium context back to last visible tab
-        window_handles = self.driver.window_handles
-        self.driver.switch_to.window(window_handles[-1])
 
     # *******************************************************
     #                    TOOL REGISTRY
@@ -95,6 +119,7 @@ class CoreBrowserToolkit(BaseToolkit):
                 func=lambda _: self.debug_assistant(),
                 description=self.get_tool_docstring(self.debug_assistant),
             ),
+            # *******************************************************
             Tool(
                 name="scroll_up",
                 func=lambda _: self.scroll_up(),
@@ -106,15 +131,33 @@ class CoreBrowserToolkit(BaseToolkit):
                 description=self.get_tool_docstring(self.scroll_down),
             ),
             Tool(
+                name="scroll_to_top",
+                func=lambda _: self.scroll_to_top(),
+                description=self.get_tool_docstring(self.scroll_to_top),
+            ),
+            Tool(
+                name="scroll_to_bottom",
+                func=lambda _: self.scroll_to_bottom(),
+                description=self.get_tool_docstring(self.scroll_to_bottom),
+            ),
+            # *******************************************************
+            Tool(
                 name="refresh_page",
                 func=lambda _: self.refresh_page(),
                 description=self.get_tool_docstring(self.refresh_page),
             ),
+            # *******************************************************
             Tool(
                 name="open_new_tab",
                 func=lambda _: self.open_new_tab(),
                 description=self.get_tool_docstring(self.open_new_tab),
             ),
+            Tool(
+                name="close_tab",
+                func=lambda _: self.close_tab(),
+                description=self.get_tool_docstring(self.close_tab),
+            ),
+            # *******************************************************
             Tool(
                 name="maximize_browser",
                 func=lambda _: self.maximize_browser(),
@@ -124,11 +167,6 @@ class CoreBrowserToolkit(BaseToolkit):
                 name="take_screenshot",
                 func=lambda _: self.take_screenshot(),
                 description=self.get_tool_docstring(self.take_screenshot),
-            ),
-            Tool(
-                name="close_tab",
-                func=lambda _: self.close_tab(),
-                description=self.get_tool_docstring(self.close_tab),
             ),
         ]
 
