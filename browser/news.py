@@ -32,9 +32,13 @@ class NewsToolkit(BaseToolkit):
             self.driver.get(
                 f"https://www.nbcnews.com/search/?q={query.replace(' ', '+')}"
             )
-        else:
+        elif FOREIGN_NEWS_SERVICE == "reuters":
             self.driver.get(
                 f"https://www.reuters.com/site-search/?query={query.replace(' ', '+')}&offset=0"
+            )
+        else:
+            raise ValueError(
+                "ERROR: `FOREIGN_NEWS_SERVICE` not specified in `settings.py`"
             )
 
     # *******************************************************

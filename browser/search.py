@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 from browser.base import BaseToolkit
+from settings import SEARCH_ENGINE
 
 
 class SearchToolkit(BaseToolkit):
@@ -27,7 +28,10 @@ class SearchToolkit(BaseToolkit):
         self.logger.info("The `go_to_search` tool has been invoked.")
 
         # Navigate to the search website
-        self.driver.get("https://www.startpage.com")
+        if SEARCH_ENGINE:
+            self.driver.get(f"https://www.{SEARCH_ENGINE}.com")
+        else:
+            raise ValueError("ERROR: `SEARCH_ENGINE` not specified in `settings.py`")
 
     # *******************************************************
 
@@ -39,11 +43,13 @@ class SearchToolkit(BaseToolkit):
         )
 
         # Check if already on search website or not
-        if "startpage" not in self.driver.current_url.lower():
-            self.driver.get("https://www.startpage.com")
+        if SEARCH_ENGINE not in self.driver.current_url.lower():
+            self.driver.get(f"https://www.{SEARCH_ENGINE}.com")
 
         # Select searchbar and enter search query
-        searchbar = self.driver.find_element(By.CLASS_NAME, "search-form-input")
+        if SEARCH_ENGINE == "startpage":
+            searchbar = self.driver.find_element(By.CLASS_NAME, "search-form-input")
+
         searchbar.click()
         searchbar.clear()
         searchbar.send_keys(search_str)
@@ -73,6 +79,25 @@ class SearchToolkit(BaseToolkit):
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[-1])
 
+    def navigate_to_results_page_by_number(self, page: int):
+        """Navigate to a specific page of the search results.
+        Takes in the page number to navigate to as an integer to.
+        For example, `page=2` to go to the second page.
+        """
+
+        self.logger.info(
+            f"The `navigate_to_results_page_by_number` tool has been invoked with page {page}."
+        )
+
+        # Select page link buttons from the search results
+        pages = self.driver.find_elements(
+            By.CSS_SELECTOR, 'button[data-testid="pagination-button"]'
+        )
+
+        # Click the relevant page button
+        page_to_open = pages[int(re.search(r"\d+", page).group()) - 1]
+        page_to_open.click()
+
     # *******************************************************
     #                    TOOL REGISTRY
     # *******************************************************
@@ -99,6 +124,13 @@ class SearchToolkit(BaseToolkit):
                 name="open_search_result",
                 func=self.open_search_result,
                 description=self.get_tool_docstring(self.open_search_result),
+            ),
+            Tool(
+                name="navigate_to_results_page_by_number",
+                func=self.navigate_to_results_page_by_number,
+                description=self.get_tool_docstring(
+                    self.navigate_to_results_page_by_number
+                ),
             ),
         ]
 
