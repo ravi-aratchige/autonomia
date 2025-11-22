@@ -2,22 +2,21 @@
 // SPEECH RECOGNITION SETUP
 // ========================
 
-// Check for browser support
 const SpeechRecognition =
 	window.SpeechRecognition || window.webkitSpeechRecognition;
+
+let recognizer;
+let listening = false;
 
 if (typeof SpeechRecognition !== 'undefined') {
 	console.log('The browser acknowledges the speech recognizer.');
 
 	// Initialize recognizer
-	const recognizer = new SpeechRecognition();
-
-	// Settings
-	recognizer.interimResults = true; // show partial results
-	recognizer.continuous = true; // keep listening
+	recognizer = new SpeechRecognition();
+	recognizer.interimResults = true;
+	recognizer.continuous = true;
 	recognizer.lang = 'en-US';
 
-	// Handle results
 	recognizer.onresult = (event) => {
 		const result = event.results[event.resultIndex];
 		const transcript = result[0].transcript.trim();
@@ -31,19 +30,21 @@ if (typeof SpeechRecognition !== 'undefined') {
 		}
 	};
 
-	// Handle errors
 	recognizer.onerror = (event) => {
 		console.error('Speech recognition error:', event.error);
 	};
 
-	// Auto-restart if recognizer stops
 	recognizer.onend = () => {
-		console.log('Recognizer stopped, restarting...');
-		recognizer.start();
+		if (listening) {
+			console.log('Recognizer stopped, restarting...');
+			recognizer.start();
+		} else {
+			console.log('Recognizer stopped.');
+		}
 	};
 
-	// Start listening
-	recognizer.start();
+	// Start listening initially
+	startListening();
 } else {
 	console.log('Speech recognition is not supported in this browser.');
 }
@@ -103,4 +104,37 @@ if (testServerBtn) {
 	testServerBtn.addEventListener('click', testServer);
 } else {
 	console.warn('Button #test-server-btn not found in DOM.');
+}
+
+// ========================
+// LISTEN/STOP BUTTON
+// ========================
+
+const stopBtn = document.querySelector('.stop-btn');
+if (stopBtn) {
+	stopBtn.addEventListener('click', () => {
+		if (listening) {
+			stopListening();
+		} else {
+			startListening();
+		}
+	});
+}
+
+function startListening() {
+	if (!recognizer) return;
+	listening = true;
+	recognizer.start();
+	stopBtn.classList.remove('off');
+	stopBtn.querySelector('.stop-text').innerHTML = 'Stop<br />Listening';
+	console.log('Switched to listening mode.');
+}
+
+function stopListening() {
+	if (!recognizer) return;
+	listening = false;
+	recognizer.stop();
+	stopBtn.classList.add('off');
+	stopBtn.querySelector('.stop-text').innerHTML = 'Start<br />Listening';
+	console.log('Switched off listening mode.');
 }

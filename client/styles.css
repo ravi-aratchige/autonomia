@@ -135,3 +135,20 @@ footer p {
 	font-size: 12px;
 	color: rgba(255, 255, 255, 0.7);
 }
+
+.stop-btn.off {
+	background: linear-gradient(
+		135deg,
+		rgba(255, 0, 0, 0.25),
+		rgba(255, 0, 0, 0.15)
+	);
+	border-color: rgba(255, 0, 0, 0.8);
+}
+
+.stop-btn.off:hover {
+	background: linear-gradient(
+		135deg,
+		rgba(255, 0, 0, 0.35),
+		rgba(255, 0, 0, 0.25)
+	);
+}
