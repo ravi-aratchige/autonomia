@@ -6,9 +6,10 @@ from browser.core import CoreBrowserToolkit
 from browser.news import NewsToolkit
 from browser.search import SearchToolkit
 from browser.youtube import YoutubeToolkit
+from providers.cohere import CohereCommandModel
 from providers.google import GoogleChatModel
 from providers.groq import GroqChatModel
-from settings import AGENT_VERBOSITY
+from settings import AGENT_MODEL_PROVIDER, AGENT_VERBOSITY
 from utils.logging import ApplicationLogger
 
 
@@ -18,7 +19,16 @@ class BrowserAssistantBuilder:
         self.logger = ApplicationLogger.get_logger()
 
         # Initialize model to be used by agent
-        self.model = GoogleChatModel()
+        if AGENT_MODEL_PROVIDER == "google":
+            self.model = GoogleChatModel()
+        elif AGENT_MODEL_PROVIDER == "groq":
+            self.model = GroqChatModel()
+        elif AGENT_MODEL_PROVIDER == "cohere":
+            self.model = CohereCommandModel()
+        else:
+            raise ValueError(
+                "ERROR: `settings.py` does not contain AGENT_MODEL_PROVIDER"
+            )
 
         # Load tools
         core_tools = CoreBrowserToolkit()
